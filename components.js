@@ -8,6 +8,29 @@ const Components = {
         logo: 'images/LOGO.jpg',
         typingSpeed: 50,
         revealThreshold: 0.1,
+        version: '1.0.3',
+        patchNotes: {
+            '1.0.3': {
+                title: 'System Update v1.0.3',
+                date: 'February 7, 2026',
+                changes: [
+                    'Implemented new automated Patch Notes system.',
+                    'Fixed critical bug where auto-updates were not triggering correctly.',
+                    'Enhanced update robustness with automatic restart and install.',
+                    'Polished modal transitions and UI interactions.'
+                ]
+            },
+            '1.0.2': {
+                title: 'Aesthetic Refinement v1.0.2',
+                date: 'February 7, 2026',
+                changes: [
+                    'Smoothed all bevels and corners for a cleaner look.',
+                    'Updated status badges to a modern pill-shaped design.',
+                    'Refined card and button borders for better definition.',
+                    'Optimized shadows for improved depth and focus.'
+                ]
+            }
+        },
         themes: {
             royal: {
                 name: 'Royal Blue',
@@ -94,6 +117,59 @@ const Components = {
         this.initBackToTop();
         this.initImageZoom();
         this.initThemeSystem();
+        this.initPatchNotes();
+    },
+
+    initPatchNotes() {
+        const lastSeenVersion = localStorage.getItem('last-seen-version');
+        const currentVersion = this.config.version;
+
+        if (lastSeenVersion !== currentVersion) {
+            const notes = this.config.patchNotes[currentVersion];
+            if (notes) {
+                this.renderPatchNotesModal(notes);
+            }
+            localStorage.setItem('last-seen-version', currentVersion);
+        }
+    },
+
+    renderPatchNotesModal(notes) {
+        const modal = document.createElement('div');
+        modal.className = 'patch-notes-modal-overlay';
+        modal.innerHTML = `
+            <div class="patch-notes-modal glass-card reveal">
+                <div class="patch-notes-header">
+                    <img src="${this.config.logo}" alt="System Logo" class="patch-logo">
+                    <div class="patch-header-text">
+                        <h2>${notes.title}</h2>
+                        <span class="patch-date">${notes.date}</span>
+                    </div>
+                </div>
+                <div class="patch-content">
+                    <h3>Imperial Directives & Updates</h3>
+                    <ul class="patch-list">
+                        ${notes.changes.map(change => `<li><span class="patch-bullet">◈</span> ${change}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="patch-footer">
+                    <button class="btn-primary patch-close">Understood</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Add small delay to trigger CSS transitions if needed, 
+        // though 'reveal' class handles initial entrance
+        setTimeout(() => modal.classList.add('active'), 10);
+
+        const closeBtn = modal.querySelector('.patch-close');
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            modal.style.opacity = '0';
+            modal.style.transform = 'translateY(20px)';
+            setTimeout(() => modal.remove(), 400);
+        });
     },
 
     initThemeSystem() {

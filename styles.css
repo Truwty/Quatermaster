@@ -2369,3 +2369,113 @@ select {
         grid-template-columns: 1fr;
     }
 }
+
+/* ========================================
+   PATCH NOTES MODAL SYSTEM
+   ======================================== */
+.patch-notes-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    z-index: 20000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s var(--spring-easing);
+    pointer-events: none;
+}
+
+.patch-notes-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.patch-notes-modal {
+    max-width: 600px;
+    width: 90%;
+    padding: 50px;
+    position: relative;
+    border: 1.5px solid var(--accent-gold);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 50px var(--gold-glow);
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.6s var(--spring-easing);
+}
+
+.patch-notes-modal-overlay.active .patch-notes-modal {
+    transform: translateY(0) scale(1);
+}
+
+.patch-notes-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.patch-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    border: 1.5px solid var(--accent-gold);
+    box-shadow: 0 0 20px var(--gold-glow);
+}
+
+.patch-header-text h2 {
+    font-size: 1.8rem;
+    color: var(--accent-gold-bright);
+    margin-bottom: 5px;
+}
+
+.patch-date {
+    font-family: var(--font-subheading);
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.patch-content h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--primary-scarlet);
+    margin-bottom: 25px;
+    font-weight: 800;
+}
+
+.patch-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.patch-list li {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text-main);
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.patch-bullet {
+    color: var(--accent-gold);
+    font-size: 0.8rem;
+    margin-top: 3px;
+}
+
+.patch-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.patch-close {
+    padding: 15px 40px !important;
+    font-size: 0.9rem !important;
+}
+
