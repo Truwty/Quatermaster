@@ -71,9 +71,9 @@
     backdrop-filter: blur(var(--blur));
     -webkit-backdrop-filter: blur(var(--blur));
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    border-radius: 30px; /* Smoothed from 20px */
     padding: 30px;
-    box-shadow: var(--regal-shadow);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     transition: var(--transition-standard);
     position: relative;
     overflow: hidden;
@@ -111,7 +111,7 @@
 /* Elite Showcase Cards */
 .showcase-card {
     position: relative;
-    border-radius: 20px;
+    border-radius: 30px; /* Smoothed from 20px */
     overflow: hidden;
     aspect-ratio: 16/10;
     cursor: pointer;
@@ -560,7 +560,7 @@ body::after {
     background: rgba(10, 14, 23, 0.95); /* Darker, more solid background */
     backdrop-filter: blur(var(--blur));
     border: 1.5px solid var(--accent-gold); /* Prominent border */
-    border-radius: 8px;
+    border-radius: 16px; /* Smoothed from 8px */
     min-width: 220px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.8);
     z-index: 1000;
@@ -708,7 +708,7 @@ body::after {
     background: rgba(2, 4, 8, 0.95);
     backdrop-filter: blur(30px);
     border: 1px solid var(--accent-gold);
-    border-radius: 20px 0 20px 20px;
+    border-radius: 25px; /* Fully smoothed from mixed radius */
     padding: 24px;
     min-width: 280px;
     display: none;
@@ -750,7 +750,7 @@ body::after {
     padding: 14px 22px;
     cursor: pointer;
     transition: var(--transition-standard);
-    border-radius: 14px;
+    border-radius: 18px; /* Smoothed from 14px */
     border: 1px solid transparent;
 }
 
@@ -905,7 +905,7 @@ body::after {
 .control-group {
     background: var(--glass-bg);
     padding: 25px;
-    border-radius: 2px;
+    border-radius: 18px; /* Smoothed from 2px */
     border: 1px solid var(--glass-border);
 }
 
@@ -929,6 +929,7 @@ body::after {
     aspect-ratio: 3/4;
     background: #000;
     border: 1px solid var(--accent-gold);
+    border-radius: 20px; /* Added smoothing */
     overflow: hidden;
     box-shadow: 0 30px 60px rgba(0,0,0,0.8);
 }
@@ -1124,7 +1125,7 @@ body::after {
     padding: 12px 28px;
     background: rgba(201, 162, 39, 0.06);
     border: 1px solid var(--accent-gold);
-    border-radius: 0;
+    border-radius: 50px; /* Smoothed from 0 to pill shape */
     color: var(--accent-gold-bright);
     font-family: var(--font-heading);
     font-size: 0.7rem;
@@ -1149,12 +1150,12 @@ body::after {
     background: linear-gradient(135deg, var(--primary-royal-blue) 0%, var(--royal-blue-deep) 100%);
     color: var(--accent-gold-bright);
     font-family: var(--font-heading);
-    border: 1px solid var(--accent-gold);
+    border: 1.5px solid var(--accent-gold); /* slightly thicker */
     padding: 14px 34px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 700;
-    border-radius: 0;
+    border-radius: 12px; /* Smoothed from 0 */
     cursor: pointer;
     transition: var(--transition-standard);
     position: relative;
@@ -1177,7 +1178,7 @@ body::after {
     letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 700;
-    border-radius: 0;
+    border-radius: 12px; /* Smoothed from 0 */
     cursor: pointer;
     transition: var(--transition-standard);
 }
