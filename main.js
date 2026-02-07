@@ -25,7 +25,14 @@ function createWindow() {
 
   win.loadFile('index.html');
   
-  // Check for updates
+  // Update handling
+  autoUpdater.on('update-available', () => {
+    console.log('Update available.');
+  });
+  autoUpdater.on('update-downloaded', () => {
+    autoUpdater.quitAndInstall();
+  });
+
   autoUpdater.checkForUpdatesAndNotify();
 }
 
