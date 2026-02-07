@@ -557,13 +557,14 @@ body::after {
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--glass-bg);
+    background: rgba(10, 14, 23, 0.95); /* Darker, more solid background */
     backdrop-filter: blur(var(--blur));
-    border: 1px solid var(--glass-border);
+    border: 1.5px solid var(--accent-gold); /* Prominent border */
     border-radius: 8px;
-    min-width: 200px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    min-width: 220px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
     z-index: 1000;
+    margin-top: 10px; /* Slight gap from the trigger */
 }
 
 .dropdown-content a {

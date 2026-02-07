@@ -48,6 +48,36 @@ const Components = {
                     '--accent-gold': '#ffffff',
                     '--body-bg': 'radial-gradient(ellipse 120% 80% at 50% -10%, #1a1a1a 0%, #0a0a0a 40%, #000000 100%)'
                 }
+            },
+            navy: {
+                name: 'Navy Guard',
+                colors: {
+                    '--primary-royal-blue': '#000080',
+                    '--royal-blue-deep': '#000033',
+                    '--primary-scarlet': '#ff0000',
+                    '--accent-gold': '#ffd700',
+                    '--body-bg': 'radial-gradient(ellipse 120% 80% at 50% -10%, #000080 0%, #000033 40%, #00001a 100%)'
+                }
+            },
+            purple: {
+                name: 'Royal Purple',
+                colors: {
+                    '--primary-royal-blue': '#4b0082',
+                    '--royal-blue-deep': '#2e004d',
+                    '--primary-scarlet': '#9400d3',
+                    '--accent-gold': '#daa520',
+                    '--body-bg': 'radial-gradient(ellipse 120% 80% at 50% -10%, #4b0082 0%, #2e004d 40%, #1a0029 100%)'
+                }
+            },
+            forest: {
+                name: 'Royal Forest',
+                colors: {
+                    '--primary-royal-blue': '#013220',
+                    '--royal-blue-deep': '#001a09',
+                    '--primary-scarlet': '#8b0000',
+                    '--accent-gold': '#c5b358',
+                    '--body-bg': 'radial-gradient(ellipse 120% 80% at 50% -10%, #013220 0%, #001a09 40%, #000a04 100%)'
+                }
             }
         }
     },
@@ -409,6 +439,15 @@ const Components = {
                     </div>
                     <div class="theme-option" data-theme="midnight" style="--theme-preview: #111111;">
                         <span class="theme-name">Midnight Onyx</span>
+                    </div>
+                    <div class="theme-option" data-theme="navy" style="--theme-preview: #000080;">
+                        <span class="theme-name">Navy Guard</span>
+                    </div>
+                    <div class="theme-option" data-theme="purple" style="--theme-preview: #4b0082;">
+                        <span class="theme-name">Royal Purple</span>
+                    </div>
+                    <div class="theme-option" data-theme="forest" style="--theme-preview: #013220;">
+                        <span class="theme-name">Royal Forest</span>
                     </div>
                 </div>
             </div>
