@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete British Army uniform regulations and specifications. Browse No.1, No.2, No.3, No.4, No.8, No.13, and No.14 uniforms.">
+    <title>Quartermaster Store - British Army Uniforms & Regulations</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>👔 Uniform Regulations</h1>
+            <p>Official standards and specifications for all British Army branches and regiments.</p>
+            <div style="margin-top: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <input type="text" id="uniformSearch" placeholder="Search uniforms (e.g. No.1, No.2)..." onkeyup="Components.filterElements(this.value, '.uniform-card')" style="padding: 15px 25px; border-radius: 30px;">
+            </div>
+        </div>
+
+        <!-- Seasons Reference -->
+        <section class="glass-card season-legend">
+            <h2 style="color: var(--primary-scarlet); margin-bottom: 25px; letter-spacing: 1px; text-transform: uppercase; font-size: 1.2rem;">📅 Uniform Deployment Seasons</h2>
+            <img src="images/Uniform Seasons.jpg" alt="Uniform Seasons Chart" loading="lazy">
+            <div class="legend-info">
+                <div class="legend-item">
+                    <div class="winter-box"></div>
+                    <span>Winter Season (Blue)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="summer-box"></div>
+                    <span>Summer Season (Yellow)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- BA Wide Section -->
+        <section style="margin-bottom: 80px;">
+            <div class="page-header" style="margin-bottom: 40px;">
+                <h2 style="font-size: 2rem;">BA Wide Standards</h2>
+            </div>
+            <div class="grid-3">
+                <div class="glass-card uniform-card">
+                    <h3 style="margin-bottom: 20px;">No.1 Dress</h3>
+                    <img src="images/uniforms/ba/n1/example.jpg" alt="No.1 Uniform" loading="lazy">
+                    <ul class="uniform-options">
+                        <li><strong>Medals:</strong> Authorized</li>
+                        <li><strong>Pins:</strong> Authorized</li>
+                        <li><strong>Gloves:</strong> Long Only</li>
+                        <li><strong>Tattoos:</strong> Restricted</li>
+                    </ul>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="orders.html?type=No.1" class="btn-primary" style="flex: 2;">Order Specification</a>
+                        <button onclick="Components.copyToClipboard('No.1 Dress: Medals Authorized, Pins Authorized, Gloves Long Only, Tattoos Restricted')" class="btn-secondary" style="flex: 1; padding: 0;" title="Copy Specs">📋</button>
+                    </div>
+                </div>
+                <div class="glass-card uniform-card">
+                    <h3 style="margin-bottom: 20px;">No.2 Dress</h3>
+                    <img src="images/uniforms/ba/n2/example.jpg" alt="No.2 Uniform" loading="lazy">
+                    <ul class="uniform-options">
+                        <li><strong>Medals:</strong> Authorized</li>
+                        <li><strong>Pins:</strong> Authorized</li>
+                        <li><strong>Gloves:</strong> Long Only</li>
+                        <li><strong>Tattoos:</strong> Restricted</li>
+                    </ul>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="orders.html?type=No.2" class="btn-primary" style="flex: 2;">Order Specification</a>
+                        <button onclick="Components.copyToClipboard('No.2 Dress: Medals Authorized, Pins Authorized, Gloves Long Only, Tattoos Restricted')" class="btn-secondary" style="flex: 1; padding: 0;" title="Copy Specs">📋</button>
+                    </div>
+                </div>
+                <div class="glass-card uniform-card">
+                    <h3 style="margin-bottom: 20px;">No.8 Dress</h3>
+                    <img src="images/uniforms/ba/n8/example.jpg" alt="No.8 Uniform" loading="lazy">
+                    <ul class="uniform-options">
+                        <li><strong>Tattoos:</strong> Authorized</li>
+                        <li><strong>Watches:</strong> Authorized</li>
+                        <li><strong>Gloves:</strong> Combat Only</li>
+                        <li><strong>Medals:</strong> Not Authorized</li>
+                    </ul>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="orders.html?type=No.8" class="btn-primary" style="flex: 2;">Order Specification</a>
+                        <button onclick="Components.copyToClipboard('No.8 Dress: Tattoos Authorized, Watches Authorized, Gloves Combat Only, Medals Not Authorized')" class="btn-secondary" style="flex: 1; padding: 0;" title="Copy Specs">📋</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Elite Uniform Customizer -->
+        <section id="customizer">
+            <div class="page-header" style="margin-bottom: 40px;">
+                <h2 style="font-size: 2.5rem; background: linear-gradient(135deg, #fff 0%, var(--primary-scarlet) 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Elite Uniform Customizer</h2>
+                <p>Configure your regimental identity with real-time specification layering.</p>
+            </div>
+            
+            <div class="glass-card customizer-container">
+                <div class="customizer-controls">
+                    <div class="control-group">
+                        <h4><span style="margin-right: 12px; font-size: 1.2rem;">👕</span>Base Specification</h4>
+                        <div class="form-group">
+                            <label>Uniform Type</label>
+                            <select id="uniform-select" onchange="updateCustomizer()">
+                                <option value="n1">No.1 Dress (Ceremonial)</option>
+                                <option value="n2">No.2 Dress (Service)</option>
+                                <option value="n3">No.3 Dress (Tropical)</option>
+                                <option value="n4">No.4 Dress (Warm Weather)</option>
+                                <option value="n8">No.8 Dress (Combat)</option>
+                                <option value="n13">No.13 Dress (Barrack)</option>
+                                <option value="n14">No.14 Dress (Barrack)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h4><span style="margin-right: 12px; font-size: 1.2rem;">🛡️</span>Regimental Identity</h4>
+                        <div class="form-group">
+                            <label>Branch / Regiment</label>
+                            <select id="regiment-select" onchange="updateCustomizer()">
+                                <option value="ba">British Army (Standard)</option>
+                                <option value="regiments/3rd_sig">3rd Specialized Infantry Group</option>
+                                <option value="regiments/16aab/aac">16AAB - Army Air Corps</option>
+                                <option value="regiments/16aab/paratroop">16AAB - Parachute Regiment</option>
+                                <option value="regiments/16aab/pathfinder">16AAB - Pathfinder Platoon</option>
+                                <option value="regiments/uksf/sas">UKSF - Special Air Service (SAS)</option>
+                                <option value="regiments/uksf/srr">UKSF - Special Reconnaissance (SRR)</option>
+                                <option value="regiments/rmp">Royal Military Police (RMP)</option>
+                                <option value="regiments/gg">Grenadier Guards (GG)</option>
+                                <option value="regiments/fco">Foreign & Commonwealth Office (FCO)</option>
+                                <option value="regiments/otc">Officer Training Corps (OTC)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h4><span style="margin-right: 12px; font-size: 1.2rem;">⚔️</span>Tactical Add-ons</h4>
+                        <div class="toggle-grid">
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-gloves" onchange="updateCustomizer()">
+                                <span class="toggle-label">White Gloves</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-sash" onchange="updateCustomizer()">
+                                <span class="toggle-label">Sergeant Sash</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-sword" onchange="updateCustomizer()">
+                                <span class="toggle-label">Officer Sword</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle-beret" onchange="updateCustomizer()">
+                                <span class="toggle-label">Regimental Beret</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; padding: 22px; font-size: 0.95rem; margin-top: 25px; border-radius: 16px; letter-spacing: 1px; text-transform: uppercase;" onclick="orderCurrent()">
+                        <span style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+                            <span style="font-size: 1.2rem;">🛒</span> Commission This Build
+                        </span>
+                    </button>
+                </div>
+
+                <div class="customizer-preview">
+                    <div class="preview-layers">
+                        <!-- Layered Images System -->
+                        <img id="layer-base" src="images/uniforms/ba/n1/example.jpg" class="preview-layer" alt="Base Layer">
+                        <div id="layer-overlay" class="preview-layer-overlay"></div>
+                        
+                        <div class="preview-badges">
+                            <div class="badge-tag" id="badge-type">No.1 Dress</div>
+                            <div class="badge-tag" id="badge-reg">British Army</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function updateCustomizer() {
+            const typeSelect = document.getElementById('uniform-select');
+            const regSelect = document.getElementById('regiment-select');
+            const type = typeSelect.value;
+            const reg = regSelect.value;
+            const typeText = typeSelect.options[typeSelect.selectedIndex].text.split(' (')[0];
+            const regText = regSelect.options[regSelect.selectedIndex].text;
+            
+            // Base Layer
+            const baseImg = document.getElementById('layer-base');
+            const imgPath = `images/uniforms/${reg}/${type}/example.jpg`;
+            const baPath = `images/uniforms/ba/${type}/example.jpg`;
+
+            baseImg.style.opacity = '0.5';
+            
+            const tempImg = new Image();
+            tempImg.src = imgPath;
+            tempImg.onload = () => {
+                baseImg.src = imgPath;
+                baseImg.style.opacity = '1';
+                document.getElementById('badge-reg').textContent = regText;
+            };
+            tempImg.onerror = () => {
+                baseImg.src = baPath;
+                baseImg.style.opacity = '1';
+                document.getElementById('badge-reg').textContent = regText + " (Standard)";
+            };
+
+            document.getElementById('badge-type').textContent = typeText;
+
+            // Simulated Layering Logic
+            const overlay = document.getElementById('layer-overlay');
+            const hasSash = document.getElementById('toggle-sash').checked;
+            const hasSword = document.getElementById('toggle-sword').checked;
+            const hasGloves = document.getElementById('toggle-gloves').checked;
+
+            let overlays = [];
+            if (hasSash) overlays.push('Sergeant Sash');
+            if (hasSword) overlays.push('Officer Sword');
+            if (hasGloves) overlays.push('White Gloves');
+
+            // Visual feedback for layers (simulated with CSS filters/overlays)
+            if (hasSash || hasSword || hasGloves) {
+                overlay.style.opacity = '1';
+                overlay.innerHTML = overlays.map(o => `<div class="active-layer-indicator">✨ ${o} Applied</div>`).join('');
+            } else {
+                overlay.style.opacity = '0';
+                overlay.innerHTML = '';
+            }
+        }
+
+        function orderCurrent() {
+            const typeValue = document.getElementById('uniform-select').value;
+            const typeText = document.getElementById('uniform-select').options[document.getElementById('uniform-select').selectedIndex].text;
+            const regText = document.getElementById('regiment-select').options[document.getElementById('regiment-select').selectedIndex].text;
+            
+            const hasSash = document.getElementById('toggle-sash').checked ? "Sergeant Sash" : "";
+            const hasSword = document.getElementById('toggle-sword').checked ? "Officer Sword" : "";
+            const hasGloves = document.getElementById('toggle-gloves').checked ? "White Gloves" : "";
+            
+            const acc = [hasSash, hasSword, hasGloves].filter(Boolean).join(", ") || "None";
+            
+            location.href = `orders.html?type=${typeText}&regiment=${regText}&acc=${acc}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => updateCustomizer());
+    </script>
+</body>
+</html>

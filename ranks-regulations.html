@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official British Army rank insignia specifications and badge requirements.">
+    <title>Rank Insignias | Quartermaster Store</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+    <style>
+        .regulations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 18px 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-standard);
+            text-align: center;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-scarlet);
+            box-shadow: 0 0 20px var(--scarlet-glow);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .reg-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .reg-table th,
+        .reg-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .reg-table th {
+            color: var(--accent-gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .reg-table tr:hover td {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .reg-table tr {
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .reg-table img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .modal-container {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur));
+            border-left: 1px solid var(--glass-border);
+            transition: right 0.3s ease;
+            z-index: 1001;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-container.active {
+            right: 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .modal-container h2 {
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        .modal-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .modal-container p {
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 40px 20px;
+            }
+            .regulations-container {
+                padding: 12px;
+                margin-left: 0;
+            }
+            .modal-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <h1>Rank Insignias</h1>
+            <p>Official British Army rank badges and insignia specifications.</p>
+            <div class="search-container">
+                <input type="text" id="rankSearch" placeholder="Search ranks (e.g. Sergeant, Captain)..." onkeyup="Components.filterElements(this.value, '.reg-table tbody tr')">
+            </div>
+        </header>
+
+        <section class="regulations-container">
+            <div class="intro-section glass-card" style="padding: 40px;">
+                <h2 style="color: #fff; margin-bottom: 20px;">Rank Hierarchy Standards</h2>
+                <p>All personnel must display the correct rank insignia according to their current position. Rank badges must be worn in the proper position and maintained in pristine condition at all times.</p>
+            </div>
+
+            <div class="glass-card" style="padding: 40px;">
+                <h2 style="color: var(--primary-scarlet); margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; font-size: 1.2rem;">Officer Ranks</h2>
+                <table class="reg-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Rank</th>
+                            <th>Insignia</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OF-1</td>
+                            <td>Second Lieutenant</td>
+                            <td><img src="images/ranks/Second Lieutenant.png" alt="Second Lieutenant Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Entry-level commissioned officer rank.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-2</td>
+                            <td>Lieutenant</td>
+                            <td><img src="images/ranks/Lieutenant.png" alt="Lieutenant Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Junior officer rank, typically platoon commander.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-3</td>
+                            <td>Captain</td>
+                            <td><img src="images/ranks/Captain.png" alt="Captain Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Company commander or senior staff officer.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-4</td>
+                            <td>Major</td>
+                            <td><img src="images/ranks/Major.png" alt="Major Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Battalion second-in-command or senior staff position.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-5</td>
+                            <td>Lieutenant Colonel</td>
+                            <td><img src="images/ranks/Lieutenant Colonel.png" alt="Lieutenant Colonel Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Battalion commander or senior regimental officer.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-6</td>
+                            <td>Colonel</td>
+                            <td><img src="images/ranks/Colonel.png" alt="Colonel Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Regimental commander or senior brigade officer.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-7</td>
+                            <td>Brigadier</td>
+                            <td><img src="images/ranks/Brigadier.png" alt="Brigadier Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Brigade commander or senior divisional officer.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-8</td>
+                            <td>Major General</td>
+                            <td><img src="images/ranks/Major General.png" alt="Major General Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Divisional commander or equivalent.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-9</td>
+                            <td>Lieutenant General</td>
+                            <td><img src="images/ranks/Lieutenant General.png" alt="Lieutenant General Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Corps commander or senior operational command.</td>
+                        </tr>
+                        <tr>
+                            <td>OF-10</td>
+                            <td>General</td>
+                            <td><img src="images/ranks/General.png" alt="General Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Highest operational command rank.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-card" style="padding: 40px; margin-top: 40px;">
+                <h2 style="color: var(--primary-scarlet); margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; font-size: 1.2rem;">Non-Commissioned Ranks</h2>
+                <table class="reg-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Rank</th>
+                            <th>Insignia</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OR-1</td>
+                            <td>Private</td>
+                            <td><img src="images/regulations/placeholder.png" alt="Private Insignia"></td>
+                            <td>Basic soldier rank, no insignia required.</td>
+                        </tr>
+                        <tr>
+                            <td>OR-2</td>
+                            <td>Lance Corporal</td>
+                            <td><img src="images/ranks/Lance Corporal.png" alt="Lance Corporal Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Junior non-commissioned officer.</td>
+                        </tr>
+                        <tr>
+                            <td>OR-3</td>
+                            <td>Corporal</td>
+                            <td><img src="images/ranks/Corporal.png" alt="Corporal Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Section commander.</td>
+                        </tr>
+                        <tr>
+                            <td>OR-4</td>
+                            <td>Sergeant</td>
+                            <td><img src="images/ranks/Sergeant.png" alt="Sergeant Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Platoon sergeant.</td>
+                        </tr>
+                        <tr>
+                            <td>OR-5</td>
+                            <td>Staff Sergeant</td>
+                            <td><img src="images/ranks/Staff Sergeant.png" alt="Staff Sergeant Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Company sergeant major.</td>
+                        </tr>
+                        <tr>
+                            <td>OR-6</td>
+                            <td>Warrant Officer Class 2</td>
+                            <td><img src="images/ranks/Warrant Officer Class Two.png" alt="WO2 Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Regimental sergeant major.</td>
+                        </tr>
+                        <tr>
+                            <td>OR-7</td>
+                            <td>Warrant Officer Class 1</td>
+                            <td><img src="images/ranks/Warrant Officer Class One.png" alt="WO1 Insignia" onerror="this.src='images/regulations/placeholder.png'"></td>
+                            <td>Regimental sergeant major (senior).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for detailed view -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container" id="modalContainer">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 id="modalTitle"></h2>
+            <img id="modalImage" src="" alt="">
+            <p><strong>Code:</strong> <span id="modalCode"></span></p>
+            <p><strong>Rank:</strong> <span id="modalRank"></span></p>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Modal functionality
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalContainer = document.getElementById('modalContainer');
+            const modalClose = document.getElementById('modalClose');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalImage = document.getElementById('modalImage');
+            const modalCode = document.getElementById('modalCode');
+            const modalRank = document.getElementById('modalRank');
+            const modalDescription = document.getElementById('modalDescription');
+
+            // Add click event to table rows
+            const tableRows = document.querySelectorAll('.reg-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length >= 4) {
+                        const code = cells[0].textContent.trim();
+                        const rank = cells[1].textContent.trim();
+                        const imgSrc = cells[2].querySelector('img').src;
+                        const altText = cells[2].querySelector('img').alt;
+                        const description = cells[3].textContent.trim();
+
+                        modalTitle.textContent = rank;
+                        modalImage.src = imgSrc;
+                        modalImage.alt = altText;
+                        modalCode.textContent = code;
+                        modalRank.textContent = rank;
+                        modalDescription.textContent = description;
+
+                        modalOverlay.style.display = 'block';
+                        setTimeout(() => {
+                            modalContainer.classList.add('active');
+                        }, 10);
+                    }
+                });
+            });
+
+            // Close modal
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', closeModal);
+
+            function closeModal() {
+                modalContainer.classList.remove('active');
+                setTimeout(() => {
+                    modalOverlay.style.display = 'none';
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

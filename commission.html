@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transparent pricing for the elite Quartermaster procurement system. View commission fees and pricing structure for all uniform options.">
+    <title>Quartermaster Store - Commission & Pricing</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+    
+    <style>
+        .calculator-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 40px;
+        }
+
+        .pricing-hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .pricing-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 50%, var(--primary-scarlet) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .pricing-hero p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+
+        .base-fee-section {
+            background: linear-gradient(135deg, rgba(185, 28, 28, 0.1), rgba(197, 160, 89, 0.05));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .base-fee-amount {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--primary-scarlet) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pricing-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .pricing-item.selected {
+            background: rgba(185, 28, 28, 0.15);
+            border-color: var(--primary-scarlet);
+            box-shadow: 0 0 15px var(--scarlet-glow);
+        }
+
+        .pricing-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--primary-scarlet);
+        }
+
+        .item-label {
+            flex: 1;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05em;
+        }
+
+        .price-tag {
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.95em;
+        }
+
+        .price-tag.free {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            color: #4ade80;
+        }
+
+        .price-tag.paid {
+            background: linear-gradient(135deg, var(--gold-glow), rgba(197, 160, 89, 0.2));
+            color: var(--accent-gold);
+        }
+
+        .total-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--primary-scarlet);
+            box-shadow: 0 0 30px var(--scarlet-glow);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+        }
+
+        .total-label {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .total-amount {
+            font-size: 4rem;
+            font-weight: 950;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--primary-scarlet) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+        }
+
+        .breakdown {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .breakdown-item {
+            text-align: center;
+        }
+
+        .breakdown-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-value {
+            color: var(--accent-gold);
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, var(--primary-scarlet), var(--scarlet-bright));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            font-size: 0.9rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--scarlet-glow);
+            border-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="pricing-hero">
+            <h1>💰 Commission & Pricing</h1>
+            <p>Transparent pricing structure for the elite Quartermaster procurement system.</p>
+            <p style="margin-top: 10px; color: var(--accent-gold);">View commission fees and pricing structure for all uniform customizations and accessories.</p>
+        </div>
+
+        <div class="base-fee-section">
+            <div class="base-fee-label">Base Uniform Fee</div>
+            <div class="base-fee-amount">20 Robux</div>
+            <p style="margin-top: 15px; color: rgba(255, 255, 255, 0.7);">Additional costs depend on selected accessories</p>
+        </div>
+
+        <div class="items-section">
+            <div class="section-title">📋 Standard Accessories</div>
+            <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">The following items are included in the base price of any uniform commission.</p>
+            <div class="items-grid">
+                <div class="pricing-item" onclick="toggleItem(this, 'medals', 0)">
+                    <input type="checkbox" id="medals" onchange="updateItemVisual('medals'); calculateTotal();">
+                    <span class="item-label">🎖️ Medals</span>
+                    <span class="price-tag free">FREE</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'formalCords', 0)">
+                    <input type="checkbox" id="formalCords" onchange="updateItemVisual('formalCords'); calculateTotal();">
+                    <span class="item-label">🎗️ Formal Cords</span>
+                    <span class="price-tag free">FREE</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'pins', 0)">
+                    <input type="checkbox" id="pins" onchange="updateItemVisual('pins'); calculateTotal();">
+                    <span class="item-label">📌 Pins</span>
+                    <span class="price-tag free">FREE</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="items-section">
+            <div class="section-title">✨ Premium Accessories (+5 Robux each)</div>
+            <div class="items-grid">
+                <div class="pricing-item" onclick="toggleItem(this, 'gloves', 5)">
+                    <input type="checkbox" id="gloves" onchange="updateItemVisual('gloves'); calculateTotal();">
+                    <span class="item-label">🧤 Gloves</span>
+                    <span class="price-tag paid">+5 Robux</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'tattoos', 5)">
+                    <input type="checkbox" id="tattoos" onchange="updateItemVisual('tattoos'); calculateTotal();">
+                    <span class="item-label">🎨 Tattoos</span>
+                    <span class="price-tag paid">+5 Robux</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'watches', 5)">
+                    <input type="checkbox" id="watches" onchange="updateItemVisual('watches'); calculateTotal();">
+                    <span class="item-label">⌚ Watches</span>
+                    <span class="price-tag paid">+5 Robux</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'armbands', 5)">
+                    <input type="checkbox" id="armbands" onchange="updateItemVisual('armbands'); calculateTotal();">
+                    <span class="item-label">💪 Armbands</span>
+                    <span class="price-tag paid">+5 Robux</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'sashes', 5)">
+                    <input type="checkbox" id="sashes" onchange="updateItemVisual('sashes'); calculateTotal();">
+                    <span class="item-label">🎀 Sashes</span>
+                    <span class="price-tag paid">+5 Robux</span>
+                </div>
+                <div class="pricing-item" onclick="toggleItem(this, 'shortSleeves', 5)">
+                    <input type="checkbox" id="shortSleeves" onchange="updateItemVisual('shortSleeves'); calculateTotal();">
+                    <span class="item-label">👕 Short Sleeves</span>
+                    <span class="price-tag paid">+5 Robux</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="items-section">
+            <div class="section-title">⭐ Special Items</div>
+            <div class="items-grid">
+                <div class="pricing-item" onclick="toggleItem(this, 'nametags', 10)">
+                    <input type="checkbox" id="nametags" onchange="updateItemVisual('nametags'); calculateTotal();">
+                    <span class="item-label">📛 Nametags</span>
+                    <span class="price-tag paid">+10 Robux</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <div class="total-label">Total Commission Fee</div>
+            <div class="total-amount" id="totalAmount">20 Robux</div>
+            
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <div class="breakdown-label">Base Fee:</div>
+                    <div class="breakdown-value">20 Robux</div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-label">Additional Items:</div>
+                    <div class="breakdown-value" id="additionalCost">0 Robux</div>
+                </div>
+            </div>
+
+            <button class="reset-btn" onclick="resetCalculator()">Reset Calculator</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleItem(element, checkboxId, price) {
+            // Prevent double-toggle when clicking checkbox directly
+            if (event.target.type === 'checkbox') {
+                return;
+            }
+            
+            const checkbox = document.getElementById(checkboxId);
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                element.classList.add('selected');
+            } else {
+                element.classList.remove('selected');
+            }
+            
+            calculateTotal();
+        }
+        
+        function updateItemVisual(checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            const item = checkbox.closest('.pricing-item');
+            
+            if (checkbox.checked) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        }
+
+        function calculateTotal() {
+            const baseFee = 20;
+            let additionalCost = 0;
+
+            // Premium items (+5 Robux each)
+            if (document.getElementById('gloves').checked) additionalCost += 5;
+            if (document.getElementById('tattoos').checked) additionalCost += 5;
+            if (document.getElementById('watches').checked) additionalCost += 5;
+            if (document.getElementById('armbands').checked) additionalCost += 5;
+            if (document.getElementById('sashes').checked) additionalCost += 5;
+            if (document.getElementById('shortSleeves').checked) additionalCost += 5;
+
+            // Special items (+10 Robux)
+            if (document.getElementById('nametags').checked) additionalCost += 10;
+
+            const total = baseFee + additionalCost;
+
+            document.getElementById('totalAmount').textContent = total + ' Robux';
+            document.getElementById('additionalCost').textContent = additionalCost + ' Robux';
+        }
+
+        function resetCalculator() {
+            // Uncheck all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Remove selected class from all items
+            const items = document.querySelectorAll('.pricing-item');
+            items.forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Reset totals
+            calculateTotal();
+        }
+    </script>
+</body>
+</html>

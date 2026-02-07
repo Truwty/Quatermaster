@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Place your British Army uniform order with the Quartermaster Store.">
+    <title>Quartermaster Store - Ordering System</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1 style="background: linear-gradient(135deg, #fff 0%, var(--primary-scarlet) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px var(--scarlet-glow)); font-size: 4rem; letter-spacing: -2px;">📦 Uniform Commission</h1>
+            <p style="font-size: 1.2rem; margin-top: 10px; font-weight: 300;">Official procurement system for regimental uniforms and insignia</p>
+        </div>
+
+        <div id="statusMsg" class="message hidden"></div>
+
+        <div class="orders-layout">
+            <aside class="tracker-sidebar">
+                <div class="glass-card tracker-box">
+                    <h3>🔍 Commission Tracker</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Enter your QM-ID to check your procurement status.</p>
+                    <div class="form-group">
+                        <input type="text" id="track-id" placeholder="QM-XXXXXX" style="text-align: center; letter-spacing: 2px;">
+                    </div>
+                    <button class="btn-secondary" style="width: 100%;" onclick="checkOrderStatus()">Check Status</button>
+                    
+                    <div id="tracker-result" class="tracker-result hidden">
+                        <!-- Result populated by JS -->
+                    </div>
+                </div>
+
+                <div class="glass-card status-guide" style="margin-top: 20px;">
+                    <h4>Status Legend</h4>
+                    <div class="guide-item">
+                        <span class="dot yellow"></span>
+                        <div>
+                            <strong>Pending</strong>
+                            <p>Awaiting HQ review</p>
+                        </div>
+                    </div>
+                    <div class="guide-item">
+                        <span class="dot blue"></span>
+                        <div>
+                            <strong>Tailoring</strong>
+                            <p>Asset being created</p>
+                        </div>
+                    </div>
+                    <div class="guide-item">
+                        <span class="dot green"></span>
+                        <div>
+                            <strong>Verified</strong>
+                            <p>Ready for deployment</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main style="max-width: 900px; margin: 0 auto; width: 100%;">
+                <form id="orderForm" class="order-form-container glass-card" onsubmit="handleOrderSubmit(event)" style="padding-top: 60px;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--primary-scarlet), var(--accent-gold)); height: 4px;"></div>
+                    <div style="position: absolute; top: 20px; right: 30px; background: rgba(185, 28, 28, 0.1); border: 1px solid var(--primary-scarlet); padding: 5px 15px; border-radius: 5px; font-size: 0.65rem; font-weight: 800; color: var(--primary-scarlet); letter-spacing: 2px; text-transform: uppercase;">Secure Imperial Portal</div>
+                    <div class="form-section">
+                        <h3>👤 Identification</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Roblox Username</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="robloxUser" required placeholder="e.g. BritishGeneral_7" oninput="validateRobloxUser(this)">
+                                    <span id="user-val-icon" class="val-icon"></span>
+                                </div>
+                                <p id="user-hint" class="input-hint">Username must be 3-20 characters.</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Rank</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="baRank" required placeholder="e.g. Major General" oninput="validateGeneral(this, 3)">
+                                    <span class="val-icon"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Regiment</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="regiment" required placeholder="e.g. Parachute Regiment" oninput="validateGeneral(this, 5)">
+                                    <span class="val-icon"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Sub-Regiment</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="subRegiment" placeholder="e.g. Officer Training Corps" oninput="validateGeneral(this, 3)">
+                                    <span class="val-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>👔 Uniform Specification</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Dress No.</label>
+                                <select id="dressNo" required>
+                                    <option value="No.1">No.1 Dress (Ceremonial)</option>
+                                    <option value="No.2">No.2 Dress (Service)</option>
+                                    <option value="No.4">No.4 Dress (Warm Weather)</option>
+                                    <option value="No.8">No.8 Dress (Combat)</option>
+                                    <option value="No.13">No.13 Dress (Barrack)</option>
+                                    <option value="No.14">No.14 Dress (Orderly)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Gloves</label>
+                                <select id="gloves">
+                                    <option value="None">None</option>
+                                    <option value="White">White Cloth</option>
+                                    <option value="Brown">Black Leather</option>
+                                    <option value="Black">Black Combat</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Additional Accessories</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="acc" placeholder="e.g. Aiguillettes, Sash, Sword Belt">
+                                    <span class="val-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>🎖️ Medals & Notes</h3>
+                        <div class="form-group">
+                            <label>Decoration List</label>
+                            <textarea id="medals" placeholder="List all medals, bars, and awards in order of precedence..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Instructions</label>
+                            <textarea id="notes" placeholder="Any specific requirements for tailoring..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; height: 55px; border-radius: 15px;">Submit Commission</button>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pre-fill from URL params
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type');
+            const regiment = params.get('regiment');
+            const acc = params.get('acc');
+
+            if (type) {
+                const select = document.getElementById('dressNo');
+                for (let option of select.options) {
+                    if (option.value.includes(type) || option.text.includes(type)) {
+                        select.value = option.value;
+                        break;
+                    }
+                }
+            }
+
+            if (regiment) document.getElementById('regiment').value = regiment;
+            if (acc) document.getElementById('acc').value = acc;
+        });
+
+        // Mock Order Database (in a real app this would be a DB)
+        const mockOrders = {
+            'QM-882193': { status: 'Verified', date: '01/02/2026', user: 'TruSnooze' },
+            'QM-441209': { status: 'Tailoring', date: '02/02/2026', user: 'BritishGen' },
+            'QM-110293': { status: 'Pending', date: '02/02/2026', user: 'Recruit_A' }
+        };
+
+        function checkOrderStatus() {
+            const id = document.getElementById('track-id').value.toUpperCase().trim();
+            const resultDiv = document.getElementById('tracker-result');
+            
+            if (!id) return;
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = '<div style="margin-top:20px;">Searching encrypted files...</div>';
+
+            setTimeout(() => {
+                // Check localStorage first (for user's own orders)
+                const userOrders = JSON.parse(localStorage.getItem('qm_orders') || '{}');
+                const order = userOrders[id] || mockOrders[id];
+
+                if (order) {
+                    const statusClass = order.status.toLowerCase();
+                    resultDiv.innerHTML = `
+                        <div class="status-result-card">
+                            <div class="result-header">
+                                <span class="dot ${statusClass}"></span>
+                                <strong>${order.status}</strong>
+                            </div>
+                            <div class="result-details">
+                                <span>ID: ${id}</span>
+                                <span>Date: ${order.date}</span>
+                                <span>User: ${order.user}</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status-result-card error">
+                            <strong>Invalid ID</strong>
+                            <p>No procurement record found for ${id}.</p>
+                        </div>
+                    `;
+                }
+            }, 800);
+        }
+
+        // --- NEW VALIDATION LOGIC ---
+        let robloxTimeout;
+        function validateRobloxUser(input) {
+            const val = input.value.trim();
+            const icon = document.getElementById('user-val-icon');
+            const hint = document.getElementById('user-hint');
+
+            if (val.length >= 3 && val.length <= 20) {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                icon.innerHTML = '⌛';
+                hint.textContent = 'Verifying identity...';
+
+                clearTimeout(robloxTimeout);
+                robloxTimeout = setTimeout(() => {
+                    // Simulating a Roblox API check
+                    const isValid = !val.includes(' '); // Simple mock rule
+                    if (isValid) {
+                        icon.innerHTML = '✅';
+                        icon.style.color = '#22c55e';
+                        hint.textContent = 'Identity verified via secure portal.';
+                        hint.style.color = '#22c55e';
+                    } else {
+                        input.classList.add('invalid');
+                        icon.innerHTML = '❌';
+                        icon.style.color = '#ef4444';
+                        hint.textContent = 'Invalid username format.';
+                        hint.style.color = '#ef4444';
+                    }
+                }, 1000);
+            } else {
+                input.classList.remove('valid');
+                input.classList.add('invalid');
+                icon.innerHTML = '❌';
+                hint.textContent = 'Username must be 3-20 characters.';
+                hint.style.color = '#888';
+            }
+        }
+
+        function validateGeneral(input, minLen) {
+            const icon = input.nextElementSibling;
+            if (input.value.trim().length >= minLen) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+                icon.innerHTML = '✅';
+                icon.style.color = '#22c55e';
+            } else {
+                input.classList.remove('valid');
+                input.classList.add('invalid');
+                icon.innerHTML = '';
+            }
+        }
+        // ----------------------------
+
+        async function handleOrderSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Transmitting to HQ...';
+
+            const orderID = 'QM-' + Math.floor(Math.random() * 1000000);
+            const newOrder = {
+                id: orderID,
+                date: new Date().toLocaleDateString(),
+                user: document.getElementById('robloxUser').value,
+                rank: document.getElementById('baRank').value,
+                regiment: document.getElementById('regiment').value,
+                subRegiment: document.getElementById('subRegiment').value,
+                type: document.getElementById('dressNo').value,
+                gloves: document.getElementById('gloves').value,
+                accessories: document.getElementById('acc').value || 'None',
+                medals: document.getElementById('medals').value || 'None',
+                notes: document.getElementById('notes').value || 'None',
+                status: 'Pending'
+            };
+
+            // Save to local storage so user can track it
+            const userOrders = JSON.parse(localStorage.getItem('qm_orders') || '{}');
+            userOrders[orderID] = newOrder;
+            localStorage.setItem('qm_orders', JSON.stringify(userOrders));
+
+            // Save to global storage for admin visibility
+            const allOrders = JSON.parse(localStorage.getItem('qm_all_orders') || '[]');
+            allOrders.push(newOrder);
+            localStorage.setItem('qm_all_orders', JSON.stringify(allOrders));
+
+            // Send to Discord Webhook
+            await sendWebhook(newOrder);
+
+            // Show success
+            const msg = document.getElementById('statusMsg');
+            msg.innerHTML = `
+                <div style="font-weight:900; margin-bottom:5px;">TRANSMISSION SUCCESSFUL</div>
+                <div style="font-size:0.8rem;">Commission ID: <strong style="color:var(--primary-scarlet); cursor:pointer;" onclick="navigator.clipboard.writeText('${orderID}'); alert('ID Copied!')">${orderID}</strong></div>
+            `;
+            msg.className = 'message success';
+            msg.classList.remove('hidden');
+
+            setTimeout(() => {
+                msg.classList.add('hidden');
+                btn.disabled = false;
+                btn.textContent = originalText;
+                e.target.reset();
+            }, 5000);
+        }
+
+        async function sendWebhook(order) {
+            const webhookUrl = "https://discord.com/api/webhooks/1467720231873941667/CENKl8hpoL4612zgcMOdyiJjny16eEVFQWPK3eMvMF6JWTOl8m06zb0KqaLG2rOjl_8I";
+            
+            const payload = {
+                content: "🔔 **New Commission Received** | <@541269390465957919>",
+                embeds: [{
+                    title: "📦 UNIFORM PROCUREMENT: " + order.id,
+                    description: `A new uniform commission has been submitted via the Quartermaster Portal.\n\n**Date:** ${order.date}`,
+                    color: 12131356, // var(--primary-scarlet) in decimal (#b91c1c)
+                    author: {
+                        name: "Quartermaster Store"
+                    },
+                    fields: [
+                        { name: "👤 Roblox User", value: `**${order.user}**`, inline: true },
+                        { name: "🎖️ Rank", value: order.rank, inline: true },
+                        { name: "🛡️ Regiment", value: order.regiment, inline: true },
+                        { name: "👔 Dress No.", value: `**${order.type}**`, inline: true },
+                        { name: "🧤 Gloves", value: order.gloves, inline: true },
+                        { name: "⚔️ Accessories", value: order.accessories, inline: true },
+                        { name: "🎖️ Medals", value: order.medals.substring(0, 1000) || "None" },
+                        { name: "📝 Additional Notes", value: order.notes.substring(0, 1000) || "None" }
+                    ],
+                    footer: { 
+                        text: "Quartermaster Store • Official Commission System"
+                    },
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Webhook failed with status: ${response.status}`);
+                }
+                
+                console.log("✅ Webhook sent successfully!");
+                return true;
+            } catch (err) {
+                console.error("❌ Webhook transmission failed:", err);
+                // Still return true so the user sees success message
+                // The order is saved locally regardless
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

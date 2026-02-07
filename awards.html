@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete guide to British Army medals and awards. Official order of precedence and regimental decorations.">
+    <title>Quartermaster Store - Awards & Medals</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>🏅 Awards & Medals</h1>
+            <p>The official order of precedence for decorations within the British Armed Forces.</p>
+            <div style="margin-top: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <input type="text" id="medalSearch" placeholder="Search awards by name or criteria..." onkeyup="filterAwards(this.value)" style="padding: 15px 25px; border-radius: 30px;">
+            </div>
+        </div>
+
+        <div id="awardsContainer">
+            <!-- Dynamically Populated -->
+        </div>
+    </div>
+
+    <script>
+        const awardCategories = {
+            "Gallantry & Bravery Awards": [
+                { name: "Victoria Cross (VC)", criteria: "Supreme Valor", desc: "The highest decoration awarded for conspicuous bravery in the presence of the enemy.", img: "victoria-cross.png" },
+                { name: "George Cross (GC)", criteria: "Gallantry", desc: "Awarded for acts of the greatest heroism or of the most conspicuous courage in circumstances of extreme danger.", img: "george-cross.png" },
+                { name: "Conspicuous Gallantry Cross (CGC)", criteria: "Gallantry", desc: "Awarded in recognition of acts of conspicuous gallantry during active operations against the enemy.", img: "conspicuous-gallantry-cross.png" },
+                { name: "Distinguished Service Order (DSO)", criteria: "Leadership", desc: "Awarded for meritorious or distinguished service by officers of the armed forces during wartime.", img: "distinguished-service-order.png" },
+                { name: "Military Cross (MC)", criteria: "Bravery", desc: "Awarded for an act or acts of exemplary gallantry during active operations against the enemy on land.", img: "military-cross.png" },
+                { name: "Distinguished Flying Cross (DFC)", criteria: "Air Gallantry", desc: "Awarded for an act or acts of valour, courage or devotion to duty whilst flying in active operations against the enemy.", img: "distinguished-flying-cross.png" },
+                { name: "Distinguished Service Cross (DSC)", criteria: "Naval Gallantry", desc: "Awarded for distinguished service during active operations against the enemy at sea.", img: "distinguished-service-order.png" },
+                { name: "George Medal (GM)", criteria: "Gallantry", desc: "Awarded for conspicuous gallantry not in the face of the enemy.", img: "george-medal.png" },
+                { name: "King's Gallantry Medal (KGM)", criteria: "Gallantry", desc: "Awarded for exemplary acts of bravery by civilians and members of the armed forces.", img: "queens-gallantry-medal.png" }
+            ],
+            "Orders & State Honours": [
+                { name: "Order of the Garter (KG/LG)", criteria: "Chivalry", desc: "The most senior and oldest British Order of Chivalry, founded by Edward III in 1348.", img: "order-of-the-garter.png" },
+                { name: "Order of the Thistle (KT/LT)", criteria: "Chivalry", desc: "The most ancient and most noble order of chivalry associated with Scotland.", img: "order-of-the-thistle.png" },
+                { name: "Order of Merit (OM)", criteria: "Distinction", desc: "Recognizes distinguished service in the armed forces, science, art, literature, or culture.", img: "order-of-merit.png" },
+                { name: "Order of the Companions of Honour (CH)", criteria: "Achievement", desc: "Awarded for outstanding achievement in the arts, science, medicine, or government.", img: "order-of-the-companions-of-honour.png" },
+                { name: "Order of the Bath (GCB/KCB/CB)", criteria: "Merit", desc: "Awarded for outstanding service in the armed forces or the civil service.", img: "order-of-the-bath.png" },
+                { name: "Order of St Michael and St George", criteria: "Service", desc: "Awarded for distinguished service in relation to foreign affairs and service overseas.", img: "order-of-st-michael-and-st-george.png" },
+                { name: "Knight/Dame Grand Cross (GBE)", criteria: "Merit", desc: "Highest rank of the Order of the British Empire for exceptional service.", img: "order-of-the-british-empire.png" },
+                { name: "Knight/Dame Commander (KBE/DBE)", criteria: "Merit", desc: "Second rank of the Order of the British Empire for distinguished service.", img: "order-of-the-british-empire.png" },
+                { name: "Commander (CBE)", criteria: "Merit", desc: "Third rank of the Order of the British Empire for prominent national service.", img: "commander-of-the-british-empire.png" },
+                { name: "Officer (OBE)", criteria: "Merit", desc: "Fourth rank of the Order of the British Empire for distinguished regional service.", img: "officer-of-the-british-empire.png" },
+                { name: "Member (MBE)", criteria: "Merit", desc: "Fifth rank of the Order of the British Empire for meritorious service.", img: "member-of-the-british-empire.png" },
+                { name: "British Empire Medal (BEM)", criteria: "Merit", desc: "Awarded for meritorious civil or military service.", img: "member-of-the-british-empire.png" },
+                { name: "Royal Victorian Order", criteria: "Personal Service", desc: "Awarded for distinguished personal service to the monarch.", img: "royal-victorian-order.png" }
+            ],
+            "Distinguished & Meritorious Service": [
+                { name: "Meritorious Service Medal (MSM)", criteria: "Long Service", desc: "Awarded to warrant officers, non-commissioned officers and other ranks for long and meritorious service.", img: "meritorious-service-medal.png" },
+                { name: "Royal Red Cross (RRC)", criteria: "Nursing Service", desc: "Awarded to military nursing services for exceptional devotion and competency.", img: "george-medal.png" },
+                { name: "Associate Royal Red Cross (ARRC)", criteria: "Nursing Service", desc: "Second class of the Royal Red Cross for distinguished nursing service.", img: "george-medal.png" },
+                { name: "King's Volunteer Reserves Medal (KVRM)", criteria: "Reserve Service", desc: "Recognizes the dedicated service and commitment of the Volunteer Reserves.", img: "queens-reserve-medal.png" }
+            ],
+            "Campaign & Operational Service": [
+                { name: "General Service Medal (2008)", criteria: "Campaign Service", desc: "Awarded for campaign service in designated operations.", img: "meritorious-service-medal.png" },
+                { name: "Operational Service Medal Afghanistan", criteria: "Campaign Service", desc: "Awarded for operational service in Afghanistan.", img: "meritorious-service-medal.png" },
+                { name: "Operational Service Medal Iraq & Syria", criteria: "Campaign Service", desc: "Awarded for operational service in Iraq and Syria.", img: "meritorious-service-medal.png" },
+                { name: "Operational Service Medal Sierra Leone", criteria: "Campaign Service", desc: "Awarded for operational service in Sierra Leone.", img: "meritorious-service-medal.png" },
+                { name: "Operational Service Medal DRC", criteria: "Campaign Service", desc: "Awarded for operational service in Democratic Republic of Congo.", img: "meritorious-service-medal.png" },
+                { name: "Operational Service Medal South Sudan", criteria: "Campaign Service", desc: "Awarded for operational service in South Sudan.", img: "meritorious-service-medal.png" },
+                { name: "Accumulated Campaign Service Medal", criteria: "Campaign Service", desc: "Awarded for accumulated operational service across multiple campaigns.", img: "meritorious-service-medal.png" },
+                { name: "Humanitarian Medal", criteria: "Humanitarian Service", desc: "Awarded for humanitarian operations and disaster relief.", img: "meritorious-service-medal.png" },
+                { name: "Wider Service Medal", criteria: "Service", desc: "Awarded for service in support of UK operations.", img: "meritorious-service-medal.png" }
+            ],
+            "Long Service & Efficiency": [
+                { name: "Long Service and Good Conduct Medal", criteria: "Long Service", desc: "Awarded for long service and good conduct in the military.", img: "meritorious-service-medal.png" },
+                { name: "Volunteer Reserves Service Medal", criteria: "Reserve Service", desc: "Awarded for long and efficient service in the Volunteer Reserves.", img: "queens-reserve-medal.png" },
+                { name: "Cadet Forces Medal", criteria: "Cadet Service", desc: "Awarded for long and efficient service with cadet forces.", img: "meritorious-service-medal.png" }
+            ],
+            "Royal & Commemorative": [
+                { name: "King's Coronation Medal 2023", criteria: "Commemorative", desc: "Commemorative medal to mark the Coronation of King Charles III and Queen Camilla.", img: "king-charles-iii-coronation-medal.png" }
+            ]
+        };
+
+        function renderAwards() {
+            const container = document.getElementById('awardsContainer');
+            let html = '';
+            
+            for (const [category, medals] of Object.entries(awardCategories)) {
+                html += `
+                    <section style="margin-bottom: 60px;">
+                        <div class="page-header" style="margin-bottom: 30px;">
+                            <h2 style="font-size: 2rem; color: var(--primary-scarlet);">${category}</h2>
+                        </div>
+                        <div class="awards-grid">
+                            ${medals.map(award => `
+                                <div class="glass-card medal-card">
+                                    <div class="medal-img-container">
+                                        <img src="images/medals/${award.img}" alt="${award.name}" loading="lazy">
+                                    </div>
+                                    <div class="medal-info">
+                                        <span class="award-criteria">${award.criteria}</span>
+                                        <h3>${award.name}</h3>
+                                        <p>${award.desc}</p>
+                                    </div>
+                                    <button onclick="Components.copyToClipboard('${award.name} (${award.criteria}): ${award.desc}')" class="btn-secondary" style="margin-top: 20px; width: 100%; font-size: 0.8rem;">Copy Detail</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </section>
+                `;
+            }
+            
+            container.innerHTML = html;
+            
+            if (typeof Components !== 'undefined') {
+                Components.applyRevealAnimations();
+            }
+        }
+
+        function filterAwards(query) {
+            const lowQuery = query.toLowerCase();
+            document.querySelectorAll('.medal-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(lowQuery) ? '' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => renderAwards());
+    </script>
+</body>
+</html>

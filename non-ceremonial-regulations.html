@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official British Army non-ceremonial uniform specifications and standards.">
+    <title>Non-Ceremonial Uniforms | Quartermaster Store</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+    <style>
+        .regulations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 18px 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-standard);
+            text-align: center;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-scarlet);
+            box-shadow: 0 0 20px var(--scarlet-glow);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .accordion-item {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur));
+            transition: var(--transition-standard);
+        }
+
+        .accordion-header {
+            padding: 25px 35px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 50%, transparent 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: var(--transition-standard);
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .accordion-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: transform 0.4s var(--spring-easing);
+        }
+
+        .accordion-icon::before,
+        .accordion-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--accent-gold);
+            transition: transform 0.4s var(--spring-easing);
+        }
+
+        .accordion-icon::before {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .accordion-icon::after {
+            width: 2px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(135deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2000px;
+            padding: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h3 {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h3::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #b91c1c;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        .content-section ul li {
+            position: relative;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+
+        .content-section ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary-scarlet);
+            font-weight: bold;
+        }
+
+        .content-section p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 40px 20px;
+            }
+            .regulations-container {
+                padding: 12px;
+                margin-left: 0;
+            }
+            .accordion-header {
+                padding: 20px 25px;
+            }
+            .accordion-header h2 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <h1>Non-Ceremonial Uniforms</h1>
+            <p>Official British Army specifications for non-ceremonial attire and daily wear.</p>
+            <div class="search-container">
+                <input type="text" id="nonCeremonialSearch" placeholder="Search non-ceremonial uniforms (e.g. PT Kit, Mess Dress)..." onkeyup="Components.filterElements(this.value, '.accordion-item')">
+            </div>
+        </header>
+
+        <section class="regulations-container">
+            <div class="intro-section glass-card" style="padding: 40px;">
+                <h2 style="color: #fff; margin-bottom: 20px;">Non-Ceremonial Standards</h2>
+                <p>Non-ceremonial uniforms are worn for daily duties, training, and informal occasions. These uniforms maintain professional standards while providing comfort and functionality for operational requirements.</p>
+            </div>
+
+            <div class="accordion" id="nonCeremonialAccordion">
+                <!-- PT Kit -->
+                <div class="accordion-item" id="pt-kit">
+                    <div class="accordion-header">
+                        <h2>Physical Training Kit</h2>
+                        <div class="accordion-icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-section">
+                            <h3>Who Can Wear It</h3>
+                            <ul>
+                                <li>All ranks during physical training sessions.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>When It Is Worn</h3>
+                            <ul>
+                                <li>During organized physical training and sports activities.</li>
+                                <li>Not permitted for general wear outside of training.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>Uniform Details</h3>
+                            <ul>
+                                <li><strong>Top:</strong> Regimental PT shirt with appropriate rank insignia.</li>
+                                <li><strong>Bottom:</strong> Regimental PT shorts or tracksuit bottoms.</li>
+                                <li><strong>Footwear:</strong> Approved athletic footwear.</li>
+                                <li><strong>Accessories:</strong> No medals or ceremonial items permitted.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>Regimental Distinctions</h3>
+                            <ul>
+                                <li>PT kit must display regimental colors and identification.</li>
+                                <li>Rank insignia must be clearly visible on the shirt.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barrack Dress -->
+                <div class="accordion-item" id="barrack-dress">
+                    <div class="accordion-header">
+                        <h2>Barrack Dress</h2>
+                        <div class="accordion-icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-section">
+                            <h3>Who Can Wear It</h3>
+                            <ul>
+                                <li>All ranks when off-duty or in barracks.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>When It Is Worn</h3>
+                            <ul>
+                                <li>Within barracks and accommodation areas.</li>
+                                <li>During off-duty hours and leisure time.</li>
+                                <li>Not permitted for public wear or official duties.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>Uniform Details</h3>
+                            <ul>
+                                <li><strong>Top:</strong> Plain civilian-style clothing or approved leisure wear.</li>
+                                <li><strong>Bottom:</strong> Civilian trousers or approved leisure wear.</li>
+                                <li><strong>Footwear:</strong> Civilian shoes or approved leisure footwear.</li>
+                                <li><strong>Identification:</strong> Must carry military ID at all times.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>Standards</h3>
+                            <ul>
+                                <li>Clothing must be clean, neat, and presentable.</li>
+                                <li>No offensive or inappropriate items permitted.</li>
+                                <li>Regimental affiliation may be displayed subtly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sports Kit -->
+                <div class="accordion-item" id="sports-kit">
+                    <div class="accordion-header">
+                        <h2>Sports Kit</h2>
+                        <div class="accordion-icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-section">
+                            <h3>Who Can Wear It</h3>
+                            <ul>
+                                <li>All ranks during organized sports and recreational activities.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>When It Is Worn</h3>
+                            <ul>
+                                <li>During regimental sports matches and competitions.</li>
+                                <li>During organized recreational sports activities.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>Uniform Details</h3>
+                            <ul>
+                                <li><strong>Top:</strong> Regimental sports shirt or jersey.</li>
+                                <li><strong>Bottom:</strong> Sports shorts or tracksuit bottoms.</li>
+                                <li><strong>Footwear:</strong> Appropriate sports footwear.</li>
+                                <li><strong>Accessories:</strong> Sports-specific equipment as required.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h3>Regimental Distinctions</h3>
+                            <ul>
+                                <li>Regimental colors and identification on sports kit.</li>
+                                <li>Team designations and player numbers.</li>
+                                <li>Appropriate rank identification where required.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    accordionItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

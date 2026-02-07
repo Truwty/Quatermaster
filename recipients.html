@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Medal recipients and honours roll for British Army decorations and awards.">
+    <title>Quartermaster Store - Medal Recipients</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>🎖️ Medal Recipients</h1>
+            <p>Honours roll of distinguished service members who have received British Army decorations.</p>
+            <div style="margin-top: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <input type="text" id="recipientSearch" placeholder="Search by medal or recipient name..." onkeyup="filterRecipients(this.value)" style="padding: 15px 25px; border-radius: 30px;">
+            </div>
+        </div>
+
+        <div class="recipients-container" id="recipientsGrid">
+            <!-- Dynamically Populated -->
+        </div>
+    </div>
+
+    <style>
+        .recipients-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .category-section {
+            margin-bottom: 60px;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            color: var(--primary-scarlet);
+            margin-bottom: 30px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .recipient-medal-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.4s var(--spring-easing);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipient-medal-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-scarlet);
+            box-shadow: 0 20px 60px rgba(185, 28, 28, 0.3);
+        }
+
+        .medal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .medal-image-wrapper {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.1), rgba(185, 28, 28, 0.05));
+            border: 2px solid rgba(201, 162, 39, 0.3);
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .medal-image-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+
+        .medal-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+        }
+
+        .medal-details {
+            flex: 1;
+        }
+
+        .medal-criteria-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--primary-scarlet) 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 18px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .medal-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .medal-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            font-weight: 400;
+        }
+
+        .recipients-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(185, 28, 28, 0.1);
+            border: 1px solid var(--primary-scarlet);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .recipients-toggle:hover {
+            background: rgba(185, 28, 28, 0.2);
+            transform: translateX(5px);
+        }
+
+        .recipients-toggle-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary-scarlet);
+        }
+
+        .recipients-count {
+            background: var(--primary-scarlet);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .toggle-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: var(--primary-scarlet);
+        }
+
+        .recipients-list {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.4s ease,
+                        margin-top 0.3s ease,
+                        padding 0.3s ease;
+            margin-top: 0;
+            padding: 0;
+        }
+        
+        .recipients-list.expanded {
+            max-height: 600px;
+            opacity: 1;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(185, 28, 28, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .recipients-list-title {
+            color: var(--primary-scarlet);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recipients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        
+        .recipient-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        .recipient-item:hover {
+            background: rgba(185, 28, 28, 0.1);
+            border-color: var(--primary-scarlet);
+            transform: translateX(5px);
+        }
+
+        .recipient-icon {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-scarlet);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .recipient-name {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .recipient-item:nth-child(1) { animation-delay: 0.1s; }
+        .recipient-item:nth-child(2) { animation-delay: 0.15s; }
+        .recipient-item:nth-child(3) { animation-delay: 0.2s; }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+
+    <script>
+        const recipientCategories = {
+            "Gallantry & Bravery Awards": [
+                { name: "Victoria Cross (VC)", criteria: "Supreme Valor", desc: "The highest decoration awarded for conspicuous bravery in the presence of the enemy.", img: "victoria-cross.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "George Cross (GC)", criteria: "Gallantry", desc: "Awarded for acts of the greatest heroism or of the most conspicuous courage in circumstances of extreme danger.", img: "george-cross.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Caty_cat1234567", "TechSypher"] },
+                { name: "Conspicuous Gallantry Cross (CGC)", criteria: "Gallantry", desc: "Awarded in recognition of acts of conspicuous gallantry during active operations against the enemy.", img: "conspicuous-gallantry-cross.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Nitroxxxes", "McDorka", "63xy15"] },
+                { name: "Distinguished Service Order (DSO)", criteria: "Leadership", desc: "Awarded for meritorious or distinguished service by officers of the armed forces during wartime.", img: "distinguished-service-order.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "McDorka", "63xy15", "za4xn", "Whos_sya27", "zqos_o", "Ace121999", "Tigerinshipy", "csa1018", "Cryptic1182", "FlexySilvia", "GriffinMatthews1963", "Nitroxxxes", "Doubletree1100", "im_wreckin", "Fembi_hi", "blabla936r", "Simply_Aiden17", "xXOnlyumwaXx", "Caty_cat1234567", "hugh_deeny", "lol_pi31415"] },
+                { name: "Military Cross (MC)", criteria: "Bravery", desc: "Awarded for an act or acts of exemplary gallantry during active operations against the enemy on land.", img: "military-cross.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Ace121999", "Fembi_hi", "Caty_cat1234567"] },
+                { name: "Distinguished Flying Cross (DFC)", criteria: "Air Gallantry", desc: "Awarded for an act or acts of valour, courage or devotion to duty whilst flying in active operations against the enemy.", img: "distinguished-flying-cross.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Distinguished Service Cross (DSC)", criteria: "Naval Gallantry", desc: "Awarded for distinguished service during active operations against the enemy at sea.", img: "distinguished-service-cross.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "George Medal (GM)", criteria: "Gallantry", desc: "Awarded for conspicuous gallantry not in the face of the enemy.", img: "george-medal.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Caty_cat1234567"] },
+                { name: "King's Gallantry Medal (KGM)", criteria: "Gallantry", desc: "Awarded for exemplary acts of bravery by civilians and members of the armed forces.", img: "kings-gallantry-medal.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "za4xn", "Proffesional_Jerkson", "Caty_cat1234567"] }
+            ],
+            "Orders & State Honours": [
+                { name: "Order of the Garter (KG/LG)", criteria: "Chivalry", desc: "The most senior and oldest British Order of Chivalry, founded by Edward III in 1348.", img: "order-of-the-garter.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "McDorka", "heartsfraud", "Ekpixelation", "hugh_deeny", "63xy15", "Caty_cat1234567"] },
+                { name: "Order of the Thistle (KT/LT)", criteria: "Chivalry", desc: "The most ancient and most noble order of chivalry associated with Scotland.", img: "order-of-the-thistle.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Order of Merit (OM)", criteria: "Distinction", desc: "Recognizes distinguished service in the armed forces, science, art, literature, or culture.", img: "order-of-merit.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Caty_Cat1234567"] },
+                { name: "Order of the Companions of Honour (CH)", criteria: "Achievement", desc: "Awarded for outstanding achievement in the arts, science, medicine, or government.", img: "order-of-the-companions-of-honour.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "blabla936r", "Simply_Aiden17", "xXOnlyumwaXx"] },
+                { name: "Order of the Bath (GCB/KCB/CB)", criteria: "Merit", desc: "Awarded for outstanding service in the armed forces or the civil service.", img: "order-of-the-bath.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "hjjproa", "qRandomxx", "blabla936r", "xXOnlyumwaXx", "Caty_cat1234567", "Ekpixelation"] },
+                { name: "Order of St Michael and St George", criteria: "Service", desc: "Awarded for distinguished service in relation to foreign affairs and service overseas.", img: "order-of-st-michael-and-st-george.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Fembi_hi"] },
+                { name: "Knight/Dame Grand Cross (GBE)", criteria: "Merit", desc: "Highest rank of the Order of the British Empire for exceptional service.", img: "order-of-the-british-empire.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "za4xn", "hugh_deeny", "Caty_cat1234567"] },
+                { name: "Knight/Dame Commander (KBE/DBE)", criteria: "Merit", desc: "Second rank of the Order of the British Empire for distinguished service.", img: "order-of-the-british-empire.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "za4xn", "hugh_deeny", "Caty_cat1234567"] },
+                { name: "Commander (CBE)", criteria: "Merit", desc: "Third rank of the Order of the British Empire for prominent national service.", img: "commander-of-the-british-empire.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "za4xn", "hugh_deeny", "Caty_cat1234567"] },
+                { name: "Officer (OBE)", criteria: "Merit", desc: "Fourth rank of the Order of the British Empire for distinguished regional service.", img: "officer-of-the-british-empire.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "za4xn", "hugh_deeny", "Caty_cat1234567"] },
+                { name: "Member (MBE)", criteria: "Merit", desc: "Fifth rank of the Order of the British Empire for meritorious service.", img: "member-of-the-british-empire.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "za4xn", "hugh_deeny", "Caty_cat1234567"] },
+                { name: "British Empire Medal (BEM)", criteria: "Merit", desc: "Awarded for meritorious civil or military service.", img: "british-empire-medal-bem.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "za4xn", "hugh_deeny", "Caty_cat1234567"] },
+                { name: "Royal Victorian Order", criteria: "Personal Service", desc: "Awarded for distinguished personal service to the monarch.", img: "royal-victorian-order.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] }
+            ],
+            "Distinguished & Meritorious Service": [
+                { name: "Meritorious Service Medal (MSM)", criteria: "Long Service", desc: "Awarded to warrant officers, non-commissioned officers and other ranks for long and meritorious service.", img: "meritorious-service-medal.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "natn299", "alexndad090"] },
+                { name: "Royal Red Cross (RRC)", criteria: "Nursing Service", desc: "Awarded to military nursing services for exceptional devotion and competency.", img: "dowroyal-red-cross.pngnload.jpg", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Associate Royal Red Cross (ARRC)", criteria: "Nursing Service", desc: "Second class of the Royal Red Cross for distinguished nursing service.", img: "dowassociate-royal-red-cross.pngnload.jpg", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "King's Volunteer Reserves Medal (KVRM)", criteria: "Reserve Service", desc: "Recognizes the dedicated service and commitment of the Volunteer Reserves.", img: "kings-volunteer-reserves-medal-kvrm.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "csa1018", "hjjproa", "Caty_cat1234567"] }
+            ],
+            "Campaign & Operational Service": [
+                { name: "General Service Medal (2008)", criteria: "Campaign Service", desc: "Awarded for campaign service in designated operations.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Operational Service Medal Afghanistan", criteria: "Campaign Service", desc: "Awarded for operational service in Afghanistan.", img: "osm-afghanistan.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Operational Service Medal Iraq & Syria", criteria: "Campaign Service", desc: "Awarded for operational service in Iraq and Syria.", img: "osm-iraq-syria.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Operational Service Medal Sierra Leone", criteria: "Campaign Service", desc: "Awarded for operational service in Sierra Leone.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Operational Service Medal DRC", criteria: "Campaign Service", desc: "Awarded for operational service in Democratic Republic of Congo.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Operational Service Medal South Sudan", criteria: "Campaign Service", desc: "Awarded for operational service in South Sudan.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Accumulated Campaign Service Medal", criteria: "Campaign Service", desc: "Awarded for accumulated operational service across multiple campaigns.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Humanitarian Medal", criteria: "Humanitarian Service", desc: "Awarded for humanitarian operations and disaster relief.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Wider Service Medal", criteria: "Service", desc: "Awarded for service in support of UK operations.", img: "general-service-medal-2008.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] }
+            ],
+            "Long Service & Efficiency": [
+                { name: "Long Service and Good Conduct Medal", criteria: "Long Service", desc: "Awarded for long service and good conduct in the military.", img: "meritorious-service-medal.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Volunteer Reserves Service Medal", criteria: "Reserve Service", desc: "Awarded for long and efficient service in the Volunteer Reserves.", img: "kings-volunteer-reserves-medal-kvrm.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] },
+                { name: "Cadet Forces Medal", criteria: "Cadet Service", desc: "Awarded for long and efficient service with cadet forces.", img: "meritorious-service-medal.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze"] }
+            ],
+            "Royal & Commemorative": [
+                { name: "King's Coronation Medal 2023", criteria: "Commemorative", desc: "Commemorative medal to mark the Coronation of King Charles III and Queen Camilla.", img: "king-charles-iii-coronation-medal.png", awardees: ["Prex_AIO", "UnknownCanadaishere", "SinfulSnooze", "TruSnooze", "Caty_cat1234567"] }
+            ]
+        };
+
+        function toggleRecipients(medalId) {
+            const list = document.getElementById(`recipients-${medalId}`);
+            const arrow = document.getElementById(`arrow-${medalId}`);
+            
+            if (list.classList.contains('expanded')) {
+                list.classList.remove('expanded');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                list.classList.add('expanded');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function renderRecipients() {
+            const container = document.getElementById('recipientsGrid');
+            let html = '';
+            let globalIndex = 0;
+            
+            for (const [category, medals] of Object.entries(recipientCategories)) {
+                html += `
+                    <div class="category-section">
+                        <h2 class="category-title">${category}</h2>
+                `;
+                
+                medals.forEach(medal => {
+                    html += `
+                        <div class="recipient-medal-card">
+                            <div class="medal-header">
+                                <div class="medal-image-wrapper">
+                                    <img src="images/medals/${medal.img}" alt="${medal.name}" loading="lazy">
+                                </div>
+                                <div class="medal-details">
+                                    <div class="medal-criteria-badge">${medal.criteria}</div>
+                                    <h2 class="medal-name">${medal.name}</h2>
+                                    <p class="medal-description">${medal.desc}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="recipients-toggle" onclick="toggleRecipients(${globalIndex})">
+                                <div class="recipients-toggle-text">
+                                    <span>🏅</span>
+                                    <span>View Honoured Recipients</span>
+                                    <span class="recipients-count">${medal.awardees.length}</span>
+                                </div>
+                                <span id="arrow-${globalIndex}" class="toggle-arrow">▼</span>
+                            </div>
+                            
+                            <div id="recipients-${globalIndex}" class="recipients-list">
+                                <div class="recipients-list-title">
+                                    <span>🎖️</span>
+                                    <span>Distinguished Service Members:</span>
+                                </div>
+                                <div class="recipients-grid">
+                                    ${medal.awardees.map(awardee => `
+                                        <div class="recipient-item">
+                                            <div class="recipient-icon"></div>
+                                            <span class="recipient-name">${awardee}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    globalIndex++;
+                });
+                
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function filterRecipients(query) {
+            const lowQuery = query.toLowerCase().trim();
+            
+            if (!lowQuery) {
+                // Show all cards if search is empty
+                document.querySelectorAll('.recipient-medal-card').forEach(card => {
+                    card.style.display = '';
+                });
+                document.querySelectorAll('.category-section').forEach(section => {
+                    section.style.display = '';
+                });
+                return;
+            }
+            
+            // Search through all categories and medals
+            document.querySelectorAll('.category-section').forEach(section => {
+                let hasVisibleCards = false;
+                
+                section.querySelectorAll('.recipient-medal-card').forEach(card => {
+                    const medalName = card.querySelector('.medal-name').textContent.toLowerCase();
+                    const recipients = Array.from(card.querySelectorAll('.recipient-name')).map(el => el.textContent.toLowerCase());
+                    const categoryName = section.querySelector('.category-title').textContent.toLowerCase();
+                    
+                    // Check if query matches medal name, category, or any recipient
+                    const matchesMedal = medalName.includes(lowQuery);
+                    const matchesCategory = categoryName.includes(lowQuery);
+                    const matchesRecipient = recipients.some(name => name.includes(lowQuery));
+                    
+                    if (matchesMedal || matchesCategory || matchesRecipient) {
+                        card.style.display = '';
+                        hasVisibleCards = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Hide category section if no cards are visible
+                section.style.display = hasVisibleCards ? '' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => renderRecipients());
+    </script>
+</body>
+</html>

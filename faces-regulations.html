@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official British Army face regulations and approved realistic faces for uniform compliance.">
+    <title>Face Regulations | Quartermaster Store</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+    <style>
+        .regulations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 18px 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-standard);
+            text-align: center;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-scarlet);
+            box-shadow: 0 0 20px var(--scarlet-glow);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .accordion-item {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur));
+            transition: var(--transition-standard);
+        }
+
+        .accordion-header {
+            padding: 25px 35px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 50%, transparent 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: var(--transition-standard);
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .accordion-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: transform 0.4s var(--spring-easing);
+        }
+
+        .accordion-icon::before,
+        .accordion-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--accent-gold);
+            transition: transform 0.4s var(--spring-easing);
+        }
+
+        .accordion-icon::before {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .accordion-icon::after {
+            width: 2px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(135deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2000px;
+            padding: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h3 {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h3::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #b91c1c;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        .content-section p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .reg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+        }
+
+        .reg-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            transition: var(--transition-standard);
+        }
+
+        .reg-card:hover {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.06);
+        }
+
+        .reg-card img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .reg-card span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .reg-card.unrealistic img { filter: grayscale(0.4); }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 40px 20px;
+            }
+            .regulations-container {
+                padding: 12px;
+                margin-left: 0;
+            }
+            .accordion-header {
+                padding: 20px 25px;
+            }
+            .accordion-header h2 {
+                font-size: 1.1rem;
+            }
+            .reg-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 12px;
+            }
+            .reg-card img {
+                width: 48px;
+                height: 48px;
+            }
+            .reg-card span {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <h1>Face Regulations</h1>
+            <p>Approved realistic and unrealistic faces for British Army uniform compliance.</p>
+            <div class="search-container">
+                <input type="text" id="faceSearch" placeholder="Search faces (e.g. Friendly Grin, Sad)..." onkeyup="Components.filterElements(this.value, '.accordion-item')">
+            </div>
+        </header>
+
+        <section class="regulations-container">
+            <div class="intro-section glass-card" style="padding: 40px;">
+                <h2 style="color: #fff; margin-bottom: 20px;">Face Compliance Standards</h2>
+                <p>All personnel must maintain realistic facial appearances that align with regimental standards. Unrealistic faces are strictly prohibited and may result in disciplinary action.</p>
+            </div>
+
+            <div class="accordion" id="faceAccordion">
+                <!-- Realistic Faces -->
+                <div class="accordion-item active" id="realistic-faces">
+                    <div class="accordion-header">
+                        <h2>Realistic Faces</h2>
+                        <div class="accordion-icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-section">
+                            <h3>Approved faces</h3>
+                            <p style="margin-bottom: 16px;">The following faces are approved as realistic.</p>
+                            <div class="reg-grid" id="realistic-faces-grid">
+                                <div class="reg-card"><img src="images/faces/realistic/friendly-grin.png" onerror="this.src='images/regulations/placeholder.png'" alt="Friendly Grin Face"><span>Friendly Grin</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/furious-george.png" onerror="this.src='images/regulations/placeholder.png'" alt="Furious George Face"><span>Furious George</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/glory-on-the-gridiron.png" onerror="this.src='images/regulations/placeholder.png'" alt="Glory on the Gridiron Face"><span>Glory on the Gridiron</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/good-intentioned.png" onerror="this.src='images/regulations/placeholder.png'" alt="Good Intentioned Face"><span>Good Intentioned</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/grumpy-blox.png" onerror="this.src='images/regulations/placeholder.png'" alt="Grumpy Blox Face"><span>Grumpy Blox</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/happy-wink.png" onerror="this.src='images/regulations/placeholder.png'" alt="Happy Wink Face"><span>Happy Wink</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/hilarious.png" onerror="this.src='images/regulations/placeholder.png'" alt="Hilarious Face"><span>Hilarious</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/hmmm.png" onerror="this.src='images/regulations/placeholder.png'" alt="Hmmm Face"><span>Hmmm...</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/i-am-not-amused.png" onerror="this.src='images/regulations/placeholder.png'" alt="I Am Not Amused Face"><span>I Am Not Amused</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/i-lack-personal-confidence.png" onerror="this.src='images/regulations/placeholder.png'" alt="I Lack Personal Confidence Face"><span>I Lack Personal Confidence</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/just-trouble.png" onerror="this.src='images/regulations/placeholder.png'" alt="Just Trouble Face"><span>Just Trouble</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/lazy-eye.png" onerror="this.src='images/regulations/placeholder.png'" alt="Lazy Eye Face"><span>Lazy Eye</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/look-at-my-nose.png" onerror="this.src='images/regulations/placeholder.png'" alt="Look At My Nose Face"><span>Look At My Nose</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/mischievous.png" onerror="this.src='images/regulations/placeholder.png'" alt="Mischievous Face"><span>Mischievous</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/mr-chuckles.png" onerror="this.src='images/regulations/placeholder.png'" alt="Mr. Chuckles Face"><span>Mr. Chuckles</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/mysterious.png" onerror="this.src='images/regulations/placeholder.png'" alt="Mysterious Face"><span>Mysterious</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/nervous.png" onerror="this.src='images/regulations/placeholder.png'" alt="Nervous Face"><span>Nervous</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/nouveau-george.png" onerror="this.src='images/regulations/placeholder.png'" alt="Nouveau George Face"><span>Nouveau George</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/o-o.png" onerror="this.src='images/regulations/placeholder.png'" alt="O.o Face"><span>O.o</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/obvious-wink.png" onerror="this.src='images/regulations/placeholder.png'" alt="Obvious Wink Face"><span>Obvious Wink</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/old-timer.png" onerror="this.src='images/regulations/placeholder.png'" alt="Old Timer Face"><span>Old Timer</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/overjoyed-smile.png" onerror="this.src='images/regulations/placeholder.png'" alt="Overjoyed Smile Face"><span>Overjoyed Smile</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/poor-man.png" onerror="this.src='images/regulations/placeholder.png'" alt="Poor Man Face"><span>Poor Man</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/raig-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="Raig Face"><span>Raig Face</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/rawr.png" onerror="this.src='images/regulations/placeholder.png'" alt="RAWR! Face"><span>RAWR!</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/red-serious-scar-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="Red Serious Scar Face"><span>Red Serious Scar Face</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/serious-scar-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="Serious Scar Face"><span>Serious Scar Face</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/sharpnines-face-of-disappointment.png" onerror="this.src='images/regulations/placeholder.png'" alt="Sharpnine's Face of Disappointment"><span>Sharpnine's Face of Disappointment</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/sharpnines-face-of-joy.png" onerror="this.src='images/regulations/placeholder.png'" alt="Sharpnine's Face of Joy"><span>Sharpnine's Face of Joy</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/shocked.png" onerror="this.src='images/regulations/placeholder.png'" alt="Shocked Face"><span>Shocked</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/sigmund.png" onerror="this.src='images/regulations/placeholder.png'" alt="Sigmund Face"><span>Sigmund</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/silly-fun.png" onerror="this.src='images/regulations/placeholder.png'" alt="Silly Fun Face"><span>Silly Fun</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/sly-guy-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="Sly Guy Face"><span>Sly Guy Face</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/smug.png" onerror="this.src='images/regulations/placeholder.png'" alt="Smug Face"><span>Smug</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/sneaky-steve.png" onerror="this.src='images/regulations/placeholder.png'" alt="Sneaky Steve Face"><span>Sneaky Steve</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/sweat-it-out.png" onerror="this.src='images/regulations/placeholder.png'" alt="Sweat it Out Face"><span>Sweat it Out</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/tiger-chase-fear-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="Tiger Chase Fear Face"><span>Tiger Chase Fear Face</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/tired-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="Tired Face"><span>Tired Face</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/toughguy.png" onerror="this.src='images/regulations/placeholder.png'" alt="Toughguy Face"><span>Toughguy</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/up-to-something.png" onerror="this.src='images/regulations/placeholder.png'" alt="Up To Something Face"><span>Up To Something</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/whuut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Whuut Face"><span>Whuut</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/wink-blink.png" onerror="this.src='images/regulations/placeholder.png'" alt="Wink-Blink Face"><span>Wink-Blink</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/woebegone.png" onerror="this.src='images/regulations/placeholder.png'" alt="Woebegone Face"><span>Woebegone</span></div>
+                                <div class="reg-card"><img src="images/faces/realistic/you-ated-my-ciak.png" onerror="this.src='images/regulations/placeholder.png'" alt="You ated my ciak! Face"><span>You ated my ciak!</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unrealistic Faces -->
+                <div class="accordion-item" id="unrealistic-faces">
+                    <div class="accordion-header">
+                        <h2>Unrealistic Faces</h2>
+                        <div class="accordion-icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-section">
+                            <p style="margin-bottom: 16px;">The following faces are <strong>not</strong> approved (unrealistic). Anything similar also counts as unrealistic unless listed under Realistic Faces.</p>
+                            <div class="reg-grid">
+                                <div class="reg-card unrealistic"><img src="images/faces/unrealistic/p-face.png" onerror="this.src='images/regulations/placeholder.png'" alt=":P Face"><span>:P</span></div>
+                                <div class="reg-card unrealistic"><img src="images/faces/unrealistic/sad-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="=( Face"><span>=(</span></div>
+                                <div class="reg-card unrealistic"><img src="images/faces/unrealistic/happy-face.png" onerror="this.src='images/regulations/placeholder.png'" alt="=) Face"><span>=)</span></div>
+                                <div class="reg-card unrealistic"><img src="images/faces/unrealistic/x-face.png" onerror="this.src='images/regulations/placeholder.png'" alt=">-< Face"><span>>-<</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    accordionItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

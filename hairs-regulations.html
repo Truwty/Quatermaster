@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official British Army hair regulations and approved hairstyles for uniform compliance.">
+    <title>Hair Regulations | Quartermaster Store</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+    <style>
+        .regulations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 18px 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-standard);
+            text-align: center;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-scarlet);
+            box-shadow: 0 0 20px var(--scarlet-glow);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .accordion-item {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur));
+            transition: var(--transition-standard);
+        }
+
+        .accordion-header {
+            padding: 25px 35px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 50%, transparent 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: var(--transition-standard);
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .accordion-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: transform 0.4s var(--spring-easing);
+        }
+
+        .accordion-icon::before,
+        .accordion-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--accent-gold);
+            transition: transform 0.4s var(--spring-easing);
+        }
+
+        .accordion-icon::before {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .accordion-icon::after {
+            width: 2px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(135deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 3000px;
+            padding: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h3 {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h3::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #b91c1c;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        .content-section p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .reg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+        }
+
+        .reg-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            transition: var(--transition-standard);
+        }
+
+        .reg-card:hover {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.06);
+        }
+
+        .reg-card img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .reg-card span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .reg-section-title {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 24px 0 12px 0;
+        }
+        .reg-section-title:first-child { margin-top: 0; }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 40px 20px;
+            }
+            .regulations-container {
+                padding: 12px;
+                margin-left: 0;
+            }
+            .accordion-header {
+                padding: 20px 25px;
+            }
+            .accordion-header h2 {
+                font-size: 1.1rem;
+            }
+            .reg-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 12px;
+            }
+            .reg-card img {
+                width: 48px;
+                height: 48px;
+            }
+            .reg-card span {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="page-header">
+            <h1>Hair Regulations</h1>
+            <p>Approved hairstyles for British Army uniform compliance.</p>
+            <div class="search-container">
+                <input type="text" id="hairSearch" placeholder="Search hairs (e.g. Black Buzzcut, Brown Slick)..." onkeyup="Components.filterElements(this.value, '.accordion-item')">
+            </div>
+        </header>
+
+        <section class="regulations-container">
+            <div class="intro-section glass-card" style="padding: 40px;">
+                <h2 style="color: #fff; margin-bottom: 20px;">Hair Compliance Standards</h2>
+                <p>Approved hairs may only be worn with uniforms that do <strong>not</strong> require headwear. All hairstyles must maintain a professional military appearance.</p>
+            </div>
+
+            <div class="accordion" id="hairAccordion">
+                <!-- Approved Hairs -->
+                <div class="accordion-item active" id="approved-hairs">
+                    <div class="accordion-header">
+                        <h2>Approved Hairs</h2>
+                        <div class="accordion-icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="content-section">
+                            <p style="margin-bottom: 20px;">Approved hairs may only be worn with uniforms that do <strong>not</strong> require headwear.</p>
+                            <h4 class="reg-section-title">Black</h4>
+                            <div class="reg-grid">
+                                <div class="reg-card"><img src="images/hairs/black/black-helmet-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Helmet Hair"><span>Black Helmet Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-slicked-back-suave-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Slicked Back Suave Hair"><span>Black Slicked Back Suave Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-generic-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Generic Hair"><span>Black Generic Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-buzzcut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Buzzcut"><span>Black Buzzcut</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-trecky.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Trecky"><span>Black Trecky</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-slick-military-cut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Slick Military Cut"><span>Black Slick Military Cut</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/slick-black-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Slick Black Hair"><span>Slick Black Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-combed-cut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Combed Cut"><span>Black Combed Cut</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-soft-combed-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Soft Combed Hair"><span>Black Soft Combed Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-slick-military-bun.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Slick Military Bun"><span>Black Slick Military Bun</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/modern-black-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Modern Black Hair"><span>Modern Black Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/y2k-low-clipped-short-ponytail-black.png" onerror="this.src='images/regulations/placeholder.png'" alt="Y2K Low Clipped Short Ponytail Black"><span>Y2K Low Clipped Short Ponytail Black</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/black-messy-bun.png" onerror="this.src='images/regulations/placeholder.png'" alt="Black Messy Bun"><span>Black Messy Bun</span></div>
+                                <div class="reg-card"><img src="images/hairs/black/trendy-superstar-bun-in-black.png" onerror="this.src='images/regulations/placeholder.png'" alt="Trendy Superstar Bun in Black"><span>Trendy Superstar Bun in Black</span></div>
+                            </div>
+                            <h4 class="reg-section-title">Brown</h4>
+                            <div class="reg-grid">
+                                <div class="reg-card"><img src="images/hairs/brown/brown-helmet-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Helmet Hair"><span>Brown Helmet Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-slicked-back-suave-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Slicked Back Suave Hair"><span>Brown Slicked Back Suave Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-generic-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Generic Hair"><span>Brown Generic Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-buzzcut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Buzzcut"><span>Brown Buzzcut</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-trecky.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Trecky"><span>Brown Trecky</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-slick-military-cut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Slick Military Cut"><span>Brown Slick Military Cut</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/slick-brown-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Slick Brown Hair"><span>Slick Brown Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-combed-cut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Combed Cut"><span>Brown Combed Cut</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-soft-combed-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Soft Combed Hair"><span>Brown Soft Combed Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/brown-slick-military-bun.png" onerror="this.src='images/regulations/placeholder.png'" alt="Brown Slick Military Bun"><span>Brown Slick Military Bun</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/modern-cinnamon-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Modern Cinnamon Hair"><span>Modern Cinnamon Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/y2k-low-clipped-short-ponytail-brown.png" onerror="this.src='images/regulations/placeholder.png'" alt="Y2K Low Clipped Short Ponytail Brown"><span>Y2K Low Clipped Short Ponytail Brown</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/messy-amber-bun.png" onerror="this.src='images/regulations/placeholder.png'" alt="Messy Amber Bun"><span>Messy Amber Bun</span></div>
+                                <div class="reg-card"><img src="images/hairs/brown/trendy-superstar-bun-in-brown.png" onerror="this.src='images/regulations/placeholder.png'" alt="Trendy Superstar Bun in Brown"><span>Trendy Superstar Bun in Brown</span></div>
+                            </div>
+                            <h4 class="reg-section-title">Light Brown</h4>
+                            <div class="reg-grid">
+                                <div class="reg-card"><img src="images/hairs/light-brown/light-brown-helmet-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Light Brown Helmet Hair"><span>Light Brown Helmet Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/light-brown/light-brown-slicked-back-suave-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Light Brown Slicked Back Suave Hair"><span>Light Brown Slicked Back Suave Hair</span></div>
+                            </div>
+                            <h4 class="reg-section-title">Blonde</h4>
+                            <div class="reg-grid">
+                                <div class="reg-card"><img src="images/hairs/blonde/dirty-blonde-generic-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Dirty Blonde Generic Hair"><span>Dirty Blonde Generic Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-helmet-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Helmet Hair"><span>Blonde Helmet Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-slicked-back-suave-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Slicked Back Suave Hair"><span>Blonde Slicked Back Suave Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-generic-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Generic Hair"><span>Blonde Generic Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-buzzcut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Buzzcut"><span>Blonde Buzzcut</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-trecky.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Trecky"><span>Blonde Trecky</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-slick-military-cut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Slick Military Cut"><span>Blonde Slick Military Cut</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-combed-cut.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Combed Cut"><span>Blonde Combed Cut</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-soft-combed-hair.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Soft Combed Hair"><span>Blonde Soft Combed Hair</span></div>
+                                <div class="reg-card"><img src="images/hairs/blonde/blonde-slick-military-bun.png" onerror="this.src='images/regulations/placeholder.png'" alt="Blonde Slick Military Bun"><span>Blonde Slick Military Bun</span></div>
+                            </div>
+                            <p style="margin-top: 16px; font-size: 0.85rem; opacity: 0.9;">Additional blonde variations may exist; full list may require further reference.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other items
+                    accordionItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

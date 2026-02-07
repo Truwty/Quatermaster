@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate commission fees for British Army uniform orders with our interactive pricing calculator.">
+    <title>Quartermaster Store - Commission Calculator</title>
+    <link rel="icon" href="images/LOGO.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="components.js"></script>
+    <style>
+        .calculator-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        0 0 60px rgba(138, 43, 226, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .calculator-title {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #ffffff 0%, #FFD700 50%, #8A2BE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .calculator-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .base-fee-section {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .base-fee-label {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .base-fee-amount {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .items-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #FFD700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .item-checkbox {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item-checkbox:hover {
+            background: rgba(138, 43, 226, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .item-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #8A2BE2;
+        }
+
+        .item-checkbox label {
+            flex: 1;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1em;
+        }
+
+        .item-checkbox.checked {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(255, 215, 0, 0.1));
+            border-color: #FFD700;
+        }
+
+        .price-tag {
+            color: #FFD700;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(255, 215, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .total-label {
+            font-size: 1.5em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+
+        .total-amount {
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #FFD700 50%, #8A2BE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .breakdown {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1em;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 5px 10px;
+        }
+
+        .reset-button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #8A2BE2, #6A1BB2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: linear-gradient(135deg, #9A3BF2, #7A2BC2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="pricing-hero">
+            <h1>💰 Commission Calculator</h1>
+            <p>Calculate your total commission fees with our interactive calculator</p>
+        </div>
+
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <h2 class="calculator-title">Commission Fee Calculator</h2>
+                <p class="calculator-subtitle">Select the items included in your uniform order</p>
+
+                <div class="base-fee-section">
+                    <div class="base-fee-label">Base Uniform Commission Fee</div>
+                    <div class="base-fee-amount">20 Robux</div>
+                </div>
+
+                <div class="items-section">
+                    <h3 class="section-title">📋 Standard Accessories</h3>
+                    <div class="item-grid">
+                        <div class="item-checkbox" onclick="toggleItem(this, 'medals')">
+                            <input type="checkbox" id="medals">
+                            <label for="medals">Medals <span class="price-tag">FREE</span></label>
+                        </div>
+                        <div class="item-checkbox" onclick="toggleItem(this, 'formal-cords')">
+                            <input type="checkbox" id="formal-cords">
+                            <label for="formal-cords">Formal Cords <span class="price-tag">FREE</span></label>
+                        </div>
+                        <div class="item-checkbox" onclick="toggleItem(this, 'pins')">
+                            <input type="checkbox" id="pins">
+                            <label for="pins">Pins <span class="price-tag">FREE</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="total-section">
+                    <div class="total-label">Total Commission Fee</div>
+                    <div class="total-amount" id="total-amount">20 Robux</div>
+                    
+                    <div class="breakdown">
+                        <div class="breakdown-item">
+                            <span>Base Fee:</span>
+                            <span>20 Robux</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Additional Items:</span>
+                            <span id="additional-items">0 Robux</span>
+                        </div>
+                    </div>
+
+                    <button class="reset-button" onclick="resetCalculator()">Reset Calculator</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_FEE = 20;
+        const ITEM_PRICES = {
+            'medals': 0,
+            'formal-cords': 0,
+            'pins': 0
+        };
+
+        function toggleItem(element, itemId) {
+            const checkbox = document.getElementById(itemId);
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                element.classList.add('checked');
+            } else {
+                element.classList.remove('checked');
+            }
+            
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let additionalCost = 0;
+            
+            for (const [itemId, price] of Object.entries(ITEM_PRICES)) {
+                const checkbox = document.getElementById(itemId);
+                if (checkbox && checkbox.checked) {
+                    additionalCost += price;
+                }
+            }
+            
+            const total = BASE_FEE + additionalCost;
+            
+            document.getElementById('total-amount').textContent = total + ' Robux';
+            document.getElementById('additional-items').textContent = additionalCost + ' Robux';
+        }
+
+        function resetCalculator() {
+            // Uncheck all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Remove checked class from all items
+            document.querySelectorAll('.item-checkbox').forEach(item => {
+                item.classList.remove('checked');
+            });
+            
+            // Reset total
+            updateTotal();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTotal();
+        });
+    </script>
+</body>
+</html>
